@@ -18,10 +18,10 @@ END
 Shoes.app title: "vJot", width: 420, height: 560, resizable: false do
   @note = NOTES.first
   background "#C7EAFB"
-  stack width: 400, margin: 20 do
+  s= stack width: 400, margin: 20 do
     background "#eee", curve: 12
     border "#00D0FF", strokewidth: 3, curve: 12
-    stack margin: 20 do
+    $s2=stack margin: 20 do
       caption "vJot"
       @title = edit_line @note[0], width: 1.0 do
         @note[0] = @title.text
@@ -34,6 +34,15 @@ Shoes.app title: "vJot", width: 420, height: 560, resizable: false do
         @note[1] = @jot.text
       end
     end
+  end
+  button 'report' do
+    p s.margin_left
+    p s.absolute_left
+    p s.element_left
+    puts '-'
+    p $s2.absolute_left
+    p $s2.element_left
+
   end
 
   def load_list

@@ -237,12 +237,15 @@ class Shoes
   end
 
   class ParentDimension < Dimension
-    def absolute_start
-      @absolute_start ? super : parent.absolute_start
-    end
 
-    def start
-      @start ? super : parent.start
+    LOOKUP_PARENT_VALUES = %w(absolute_start absolute_end start end margin_start
+margin_end)
+    LOOKUP_PARENT_VALUES.each do |value|
+      eval <<-ACCESSOR
+def #{value}
+  @#{value} ? super : parent.#{value}
+end
+      ACCESSOR
     end
 
     def extent
@@ -254,16 +257,7 @@ class Shoes
     # Represents the extent, bounded by the parent container's sizing
     def extent_in_parent
       if parent.element_end
-        # Why subtracting an absolute from an element dimension value? A
-        # diagram helped me reason out what we wanted.
-        #
-        # parent.      parent.      self.       self.    parent.      parent.
-        # abs_start    elem_start   abs_start   abs_end  elem_end     abs_end
-        # |   margin   |            |           |        |   margin   |
-        #
-        # To get our extent respecting the parent's margins, it's our absolute
-        # start, minus parent's element end (so we don't blow past the margin)
-        parent.element_end - absolute_start - PIXEL_COUNTING_ADJUSTMENT
+        parent.element_end - element_start - PIXEL_COUNTING_ADJUSTMENT
       else
         # If we hit this, then the extent in parent isn't available and will be
         # ignored by the min call below

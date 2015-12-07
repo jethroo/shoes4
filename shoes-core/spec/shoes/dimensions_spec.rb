@@ -723,10 +723,10 @@ describe Shoes::Dimensions do
       its(:width)  {should eq parent.width}
       its(:height) {should eq parent.height}
 
-      its(:margin_left)   {should eq 0}
-      its(:margin_top)    {should eq 0}
-      its(:margin_right)  {should eq 0}
-      its(:margin_bottom) {should eq 0}
+      its(:margin_left)   {should eq 20}
+      its(:margin_top)    {should eq 20}
+      its(:margin_right)  {should eq 20}
+      its(:margin_bottom) {should eq 20}
 
       context 'with parent absolute_left/top set' do
         before :each do
@@ -736,8 +736,8 @@ describe Shoes::Dimensions do
 
         its(:absolute_left) {should eq parent.absolute_left}
         its(:absolute_top)  {should eq parent.absolute_top}
-        its(:element_left)  {should eq parent.absolute_left}
-        its(:element_top)   {should eq parent.absolute_top}
+        its(:element_left)  {should eq parent.element_left}
+        its(:element_top)   {should eq parent.element_top}
       end
     end
 
